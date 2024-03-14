@@ -20,7 +20,7 @@
     </select>
 
 
-    <update id="update"    parameterType="employee" >
+    <update id="update"    parameterType="Employee" >
         update employee
         <set>
             <if test="name != null">name = #{name},</if>

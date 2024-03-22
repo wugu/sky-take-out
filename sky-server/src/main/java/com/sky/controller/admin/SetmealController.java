@@ -82,4 +82,16 @@ public class SetmealController {
         setmealService.update(setmealDTO);
         return Result.success();
     }
+
+    /**
+     * 套餐停售起售
+     * @param
+     * @return
+     */
+    @PostMapping ("/{status}")
+    @ApiOperation("套餐停售起售")
+    public Result startOrStop(@PathVariable Integer status,Long id){
+        setmealService.startOrStop(status,id);
+        return Result.success();
+    }
 }

@@ -13,11 +13,14 @@ public interface UserMapper {
      * @return
      */
     @Select("select * from user where openid = #{openid}")
-    User getById(String openid);
+    User getByOpenid(String openid);
 
     /**
      * 新增用户通过微信
      * @param user
      */
     void insert(User user);
+
+    @Select("select * from user where id = #{id}")
+    User getById(Long userId);
 }

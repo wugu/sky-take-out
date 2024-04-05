@@ -43,4 +43,10 @@ public interface OrderService {
      * @return
      */
     PageResult getPage(int page, int pageSize, Integer status);
+
+    /**
+     * 取消订单
+     * @param id
+     */
+    void cancelOrder(Long id) throws Exception;
 }

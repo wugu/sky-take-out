@@ -75,4 +75,15 @@ public class OrderController {
         PageResult pageResult = orderService.getPage(page, pageSize, status);
         return Result.success(pageResult);
     }
+
+    /**
+     * 取消订单
+     * @param id
+     * @return
+     */
+    @PutMapping("/cancel/{id}")
+    public Result cancelOrder(@PathVariable Long id) throws Exception {
+        orderService.cancelOrder(id);
+        return Result.success();
+    }
 }

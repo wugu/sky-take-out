@@ -5,6 +5,7 @@ import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.entity.Orders;
+import com.sky.mapper.ShoppingCartMapper;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
@@ -84,6 +85,12 @@ public class OrderController {
     @PutMapping("/cancel/{id}")
     public Result cancelOrder(@PathVariable Long id) throws Exception {
         orderService.cancelOrder(id);
+        return Result.success();
+    }
+
+    @PostMapping("/repetition/{id}")
+    public Result repetition(@PathVariable Long id){
+        orderService.repetition(id);
         return Result.success();
     }
 }

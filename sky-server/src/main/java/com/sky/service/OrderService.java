@@ -4,6 +4,7 @@ import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.vo.OrderVO;
 
 public interface OrderService {
 
@@ -26,4 +27,10 @@ public interface OrderService {
      */
     void paySuccess(String outTradeNo);
 
+    /**
+     * 查看订单
+     * @param id
+     * @return
+     */
+    OrderVO getById(Long id);
 }

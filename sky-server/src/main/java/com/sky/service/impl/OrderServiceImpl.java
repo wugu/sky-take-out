@@ -415,5 +415,37 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    /**
+     * 取消订单
+     * @param ordersCancelDTO
+     */
+    public void cancelOrderByAdmin(OrdersCancelDTO ordersCancelDTO) throws Exception {
+//        取消订单其实就是将订单状态修改为“已取消”
+//        商家取消订单时需要指定取消原因
+//        商家取消订单时，如果用户已经完成了支付，需要为用户退款
+        Orders ordersDB = orderMapper.getById(ordersCancelDTO.getId());
+        //支付状态
+        Integer payStatus = ordersDB.getPayStatus();
+        if (payStatus == Orders.PAID) {
+            //用户已支付，需要退款
+            String refund = weChatPayUtil.refund(
+                    ordersDB.getNumber(),
+                    ordersDB.getNumber(),
+                    new BigDecimal(0.01),
+                    new BigDecimal(0.01));
+            log.info("申请退款：{}", refund);
+        }
+
+        //和拒单逻辑一样
+        Orders orders = Orders.builder()
+                .id(ordersDB.getId())
+                .status(Orders.COMPLETED)
+                .cancelReason(ordersCancelDTO.getCancelReason())
+                .cancelTime(LocalDateTime.now())
+                .build();
+
+        orderMapper.update(orders);
+    }
+
 
 }

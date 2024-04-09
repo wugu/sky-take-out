@@ -17,6 +17,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class OrderServiceImpl implements OrderService {
     private WeChatPayUtil weChatPayUtil;
     @Autowired
     private UserMapper userMapper;
+
+    //@Value("${sky.shop.address}")
+    private String shopAddress;
+
+    //@Value("${sky.baidu.ak}")
+    private String ak;
     /**
      * 用户下单
      * @param ordersSubmitDTO
@@ -467,5 +474,25 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
+    /**
+     * 完成订单
+     * @param id
+     */
+    public void complete(Long id) {
+//        完成订单其实就是将订单状态修改为“已完成”
+//        只有状态为“派送中”的订单可以执行订单完成操作
+        //        订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+        Orders ordersDB = orderMapper.getById(id);
+        // 校验订单是否存在，并且状态为4
+        if (ordersDB == null || !ordersDB.getStatus().equals(Orders.DELIVERY_IN_PROGRESS)) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Orders orders = new Orders();
+        orders.setId(ordersDB.getId());
+        orders.setStatus(Orders.COMPLETED);
+        orders.setDeliveryTime(LocalDateTime.now());
+        orderMapper.update(orders);
+    }
 
 }

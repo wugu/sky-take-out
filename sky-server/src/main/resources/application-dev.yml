@@ -20,3 +20,7 @@ sky:
   wechat:
     appid: wxf647266814baa6c8
     secret: f16dc5a00614a521e2fb60fd613efde2
+#  shop:
+#    address: xxx
+#  baidu:
+#      ak: xxx,需要自己去百度地图开放平台获取ak
